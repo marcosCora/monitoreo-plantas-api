@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 public interface IRepositoryRole extends JpaRepository<Role, Long> {
 
-    @Query(value = "SELECT r FROM  roles r WHERE r.name = :nameRole", nativeQuery = true)
-    Optional<Role> findByName(@Param("nameRole") String nameRole);
+    @Query(value = "SELECT * FROM  roles  WHERE roles.type_role = :type_role", nativeQuery = true)
+    Optional<Role> findByName(@Param("type_role") String type_role);
 }
