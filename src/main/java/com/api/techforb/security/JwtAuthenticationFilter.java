@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtGenerator jwtGenerator;
 
-    public String getTokenToRequest(HttpServletRequest request){
+    private  String getTokenToRequest(HttpServletRequest request){
         String rta = null;
         String bearerToken = request.getHeader("Authorization");
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){ //se valida de primer momento que no sea nulo y que su longitud sea mayot a 0
