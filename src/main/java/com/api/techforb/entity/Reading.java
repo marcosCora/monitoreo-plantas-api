@@ -25,7 +25,7 @@ public class Reading {
     @JoinColumn(name = "fk_plant",
                 referencedColumnName = "idPlant")
     @JsonIgnoreProperties(value = "readings")
-    private Plants plant;
+    private Plant plant;
     private double value;
     @OneToMany(mappedBy = "reading", cascade = CascadeType.ALL)
     private List<Alert> alerts;

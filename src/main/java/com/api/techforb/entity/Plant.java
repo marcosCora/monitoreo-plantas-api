@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Plants {
+public class Plant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPlant;
