@@ -19,10 +19,15 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUsersDetailsService implements UserDetailsService {
 
-    @Autowired
+
     private IRepositoryUser userRepository;
 
-    public Collection<GrantedAuthority> mapToAuthorities(List<Role> roles){
+    @Autowired
+    public CustomUsersDetailsService(IRepositoryUser userRepo){
+        this.userRepository = userRepo;
+    }
+
+    public Collection<? extends GrantedAuthority> mapToAuthorities(List<Role> roles){
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getTypeRole())).collect(Collectors.toList());
     }
 
