@@ -45,29 +45,13 @@ public class SecurityConfig {
 
     //creo un bean el cual establece una cadena de filtros de seguridad en nuestra aplicacion.
     //Y es donde determino los permisos segun los roles
-    /**@Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http
-                .csrf().disable()
-                .exceptionHandling() //permito el manejo de exceptions
-                .authenticationEntryPoint(jwtAutEntryPoint) //establece un punto de entrada personalizado para el manejo de auth no autorizadas.
-                .and() //filtro de seguridad
-                .sessionManagement() //permite la gestion de sessiones
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests() //toda peticion http debe ser autorizada.
-                .requestMatchers("/api/auth/**").permitAll()//aca determinamos que tipos de endpoint pueden acceder determinados usuarios
-                .anyRequest().authenticated() //indica que cualquier solicitud que no sea la que esta arriba debe estar authenticada
-                .and()
-                .httpBasic();
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }*/
+
+
     //creo un bean el cual establece una cadena de filtros de seguridad en nuestra aplicacion.
     //Y es donde determino los permisos segun los roles
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-         http.authorizeHttpRequests((authz) -> authz
+        http.authorizeHttpRequests((authz) -> authz
                         .requestMatchers(HttpMethod.GET,"/api/lectura").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/api/usuario").permitAll()
                         .anyRequest().permitAll())

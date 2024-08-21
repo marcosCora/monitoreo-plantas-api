@@ -22,9 +22,7 @@ public class Reading {
     private Long idReading;
     @Enumerated(EnumType.STRING)
     private TypeReadings typeReading;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "fk_plant",
-                referencedColumnName = "idPlant")
+    @ManyToOne()
     @JsonIgnoreProperties(value = "readings")
     private Plant plant;
     private double value;
