@@ -14,4 +14,5 @@ public interface IServiceReading {
     public String deleteReading(Long id) throws Exception;
     public void saveReading(List<Reading> readings);
     public DtoReadingsTotals readingsTotals();
+    public DtoPlant readingByPlant(DtoPlant dto);
 }

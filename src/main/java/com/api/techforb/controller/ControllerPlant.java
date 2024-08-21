@@ -28,6 +28,17 @@ public class ControllerPlant {
         return response;
     }
 
+    @GetMapping("/getalldto")
+    public ResponseEntity<?> getAllPlantsDto(){
+        ResponseEntity<?> response = null;
+        try{
+            response = new ResponseEntity<>(service.getAllPlantsDto(), HttpStatus.OK);
+        }catch (Exception e){
+            response = ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return response;
+    }
+
     @PostMapping("/creat")
     public ResponseEntity<String> creatPlant(@RequestBody Plant plant){
         ResponseEntity<String> response = null;
@@ -50,5 +61,17 @@ public class ControllerPlant {
         }
         return response;
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePlant(@PathVariable Long id){
+        ResponseEntity<String> response = null;
+        try{
+            response = new ResponseEntity<>(service.deletePlant(id), HttpStatus.OK);
+        }catch (Exception e){
+            response = ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return response;
+    }
+
 
 }
