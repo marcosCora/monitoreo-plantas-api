@@ -43,22 +43,23 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter();
     }
 
-    //creo un bean el cual establece una cadena de filtros de seguridad en nuestra aplicacion.
-    //Y es donde determino los permisos segun los roles
-
 
     //creo un bean el cual establece una cadena de filtros de seguridad en nuestra aplicacion.
     //Y es donde determino los permisos segun los roles
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(HttpMethod.GET,"/api/lectura").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/api/usuario").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/techapi/plants/getalldto").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/techapi/plants/countreadings").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/techapi/plants/getall").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/techapi/plants/creat").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/techapi/plants/delete/**").hasAnyRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.POST,"/techapi/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/techapi/auth/login").permitAll()
                         .anyRequest().permitAll())
-                //.addFilter(new JwtAuthenticationFilter())
-                //.addFilter(new JwtAuthenticationFilter())
+
                 .csrf(config ->config.disable())
-                //.cors(cors-> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

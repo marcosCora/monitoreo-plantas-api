@@ -22,6 +22,7 @@ public class UserMapper {
         user.setLastName(dtoRegistrer.getLastName());
         user.setEmail(dtoRegistrer.getEmail());
         Role role = serviceRole.findTypeRole(TypeRole.USER);
+        //Role role = serviceRole.findTypeRole(TypeRole.ADMIN);
         user.setRoles(Collections.singletonList(role));
         return user;
     }
