@@ -9,6 +9,7 @@ import java.util.List;
 public interface IServicePlant {
 
     public List<Plant> getAllPlants() throws Exception;
+    public List<DtoPlant> getAllPlantsDto() throws Exception;
     public String savePlant(Plant plant) throws Exception;
     public String deletePlant(Long id) throws Exception;
     public String updatePlant(Long id, Plant plantUpdate) throws Exception;

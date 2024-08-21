@@ -11,6 +11,7 @@ import com.api.techforb.service.IServiceReading;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,9 +32,23 @@ public class ServicePlant implements IServicePlant {
         if(plants.isEmpty()){
             throw new Exception("Plants Not Fund");
         }
-        return plants;/*.stream()
-                .map(plantMapper::plantToDto)
-                .collect(Collectors.toList());*/
+        return plants;
+    }
+
+    @Override
+    public List<DtoPlant> getAllPlantsDto() throws Exception{
+        List<Plant> plants = plantRepository.findAll();
+        if(plants.isEmpty()){
+            throw new Exception("Plants Not Fund");
+        }
+        List<DtoPlant> arrayDto = new ArrayList<>();
+        for (Plant p : plants){
+            DtoPlant dto = new DtoPlant();
+            dto = plantMapper.plantToDto(p);
+            dto = serviceReading.readingByPlant(dto);
+            arrayDto.add(dto);
+        }
+        return arrayDto;
     }
 
     @Override
