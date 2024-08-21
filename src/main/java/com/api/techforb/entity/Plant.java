@@ -12,13 +12,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Plants {
+public class Plant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPlant;
     private String name;
-    @ManyToOne
-    private Country country;
+    private String country;
     @OneToMany(mappedBy = "plant", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "plant")
     private List<Reading> readings;
