@@ -40,5 +40,15 @@ public class ControllerPlant {
         return response;
     }
 
+    @GetMapping("/countreadings")
+    public ResponseEntity<?> getCountReading(){
+        ResponseEntity<?> response = null;
+        try{
+            response = new ResponseEntity<>(service.readingsTotals(), HttpStatus.OK);
+        }catch (Exception e){
+            response = ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return response;
+    }
 
 }

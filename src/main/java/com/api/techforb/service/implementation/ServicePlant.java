@@ -1,10 +1,13 @@
 package com.api.techforb.service.implementation;
 
 import com.api.techforb.dtos.DtoPlant;
+import com.api.techforb.dtos.DtoReadingsTotals;
 import com.api.techforb.entity.Plant;
+import com.api.techforb.entity.Reading;
 import com.api.techforb.mapper.PlantMapper;
 import com.api.techforb.repository.IRepositoryPlant;
 import com.api.techforb.service.IServicePlant;
+import com.api.techforb.service.IServiceReading;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,8 @@ public class ServicePlant implements IServicePlant {
     private IRepositoryPlant plantRepository;
     @Autowired
     private PlantMapper plantMapper;
+    @Autowired
+    private IServiceReading serviceReading;
 
 
     @Override
@@ -32,8 +37,22 @@ public class ServicePlant implements IServicePlant {
     }
 
     @Override
-    public String savePlant(Plant plant){
-        plantRepository.save(plant);
+    public String savePlant(Plant plant)throws Exception{
+        if(plant == null){
+            throw new Exception("Plant not found");
+        }
+        Plant plantNew = new Plant();
+        plantNew.setName(plant.getName());
+        plantNew.setCountry(plant.getCountry());
+        plantNew.setSensorsDisiable(plant.getSensorsDisiable());
+
+        Plant plantSaved = plantRepository.save(plantNew);
+        List<Reading> readings = plant.getReadings();
+        System.out.println(plant.getReadings());
+        for(Reading r : readings){
+            r.setPlant(plantSaved);
+        }
+        serviceReading.saveReading(readings);
         return "Plant Saved";
     }
 
@@ -53,9 +72,11 @@ public class ServicePlant implements IServicePlant {
         return "Plant Updated";
     }
 
-
-
-
-
+    @Override
+    public DtoReadingsTotals readingsTotals(){
+        DtoReadingsTotals dto = serviceReading.readingsTotals();
+        dto.setSensorsDisiabled(plantRepository.getTotalSensorsDisiabled());
+        return dto;
+    }
 
 }

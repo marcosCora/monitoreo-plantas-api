@@ -17,13 +17,9 @@ public class Plant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPlant;
     private String name;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Country country;
-
+    private String country;
     @OneToMany(mappedBy = "plant", cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_readings",
-            referencedColumnName = "idReadings")
+    @JsonIgnoreProperties(value = "plant")
     private List<Reading> readings;
     private int sensorsDisiable;
 }

@@ -22,10 +22,14 @@ public class Reading {
     private Long idReading;
     @Enumerated(EnumType.STRING)
     private TypeReadings typeReading;
-    @ManyToOne()
+    @ManyToOne
+    @JoinColumn(name = "fk_plant",
+            referencedColumnName = "idPlant")
     @JsonIgnoreProperties(value = "readings")
     private Plant plant;
     private double value;
-    @OneToMany(mappedBy = "reading", cascade = CascadeType.ALL)
-    private List<Alert> alerts;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_alert")
+    @JsonIgnoreProperties(value = "readings")
+    private Alert alert;
 }

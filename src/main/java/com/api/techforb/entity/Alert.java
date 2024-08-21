@@ -20,9 +20,7 @@ public class Alert {
     private Long idAlert;
     @Enumerated(EnumType.STRING)
     private TypeAlert typeAlert;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "fk_alert",
-            referencedColumnName = "idReading")
-    private Reading reading;
+    @OneToMany(mappedBy = "alert")
+    private List<Reading> readings;
 
 }

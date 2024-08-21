@@ -1,5 +1,6 @@
 package com.api.techforb.service.implementation;
 
+import com.api.techforb.Enums.TypeAlert;
 import com.api.techforb.entity.Alert;
 import com.api.techforb.repository.IRepositoryAlert;
 import com.api.techforb.service.IServiceAlert;
@@ -40,4 +41,10 @@ public class ServiceAlert implements IServiceAlert {
         alertRepository.deleteById(id);
         return "Alert deleted";
     }
+
+    @Override
+    public Long sumTypeAlert(TypeAlert typeAlert){
+        return alertRepository.getTotalAlertByType(typeAlert.toString());
+    }
+
 }
