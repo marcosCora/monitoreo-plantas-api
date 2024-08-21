@@ -49,18 +49,19 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(HttpMethod.GET,"/techapi/plants/getalldto").hasAnyRole("ADMIN", "USER")
+                        /*.requestMatchers(HttpMethod.GET,"/techapi/plants/getalldto").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.GET,"/techapi/plants/countreadings").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.GET,"/techapi/plants/getall").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,"/techapi/plants/creat").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,"/techapi/plants/delete/**").hasAnyRole("ADMIN")
 
                         .requestMatchers(HttpMethod.POST,"/techapi/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/techapi/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/techapi/auth/login").permitAll()*/
+
                         .anyRequest().permitAll())
 
-                .csrf(config ->config.disable())
-                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        .csrf(config ->config.disable())
+                        .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
