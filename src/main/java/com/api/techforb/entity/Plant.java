@@ -17,10 +17,10 @@ public class Plant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPlant;
     private String name;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Country country;
     @OneToMany(mappedBy = "plant", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "plant")
+    //@JsonIgnoreProperties(value = "plant")
     private List<Reading> readings;
     private int sensorsDisiable;
 }

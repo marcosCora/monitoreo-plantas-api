@@ -2,6 +2,7 @@ package com.api.techforb.entity;
 
 import com.api.techforb.Enums.TypeReadings;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class Reading {
     private Long idReading;
     @Enumerated(EnumType.STRING)
     private TypeReadings typeReading;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_plant",
                 referencedColumnName = "idPlant")
     @JsonIgnoreProperties(value = "readings")
