@@ -60,6 +60,7 @@ public class ServicePlant implements IServicePlant {
         Plant plantNew = new Plant();
         plantNew.setName(plant.getName());
         plantNew.setCountry(plant.getCountry());
+        plantNew.setUrlFlag(plant.getUrlFlag());
         plantNew.setSensorsDisiable(plant.getSensorsDisiable());
 
         Plant plantSaved = plantRepository.save(plantNew);

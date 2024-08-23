@@ -18,6 +18,7 @@ public class Plant {
     private Long idPlant;
     private String name;
     private String country;
+    private String urlFlag;
     @OneToMany(mappedBy = "plant", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "plant")
     private List<Reading> readings;

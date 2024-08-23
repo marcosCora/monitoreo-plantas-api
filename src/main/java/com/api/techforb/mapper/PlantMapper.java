@@ -12,6 +12,7 @@ public class PlantMapper {
         dto.setIdPlant(plant.getIdPlant());
         dto.setName(plant.getName());
         dto.setNameCountry(plant.getCountry());
+        dto.setUrlCountry(plant.getUrlFlag());
         dto.setSensorsDisiabled(plant.getSensorsDisiable());
         return dto;
     }
