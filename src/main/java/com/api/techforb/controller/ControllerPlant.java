@@ -21,7 +21,7 @@ public class ControllerPlant {
     public ResponseEntity<?> getAllPlants(){
         ResponseEntity<?> response = null;
         try{
-            response = new ResponseEntity<>(service.getAllPlants(), HttpStatus.OK);
+            response = new ResponseEntity<>(service.getAllPlantsDto(), HttpStatus.OK);
         }catch (Exception e){
             response = ResponseEntity.badRequest().body(e.getMessage());
         }
