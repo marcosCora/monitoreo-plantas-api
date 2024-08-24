@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ServicePlant implements IServicePlant {
@@ -44,11 +43,13 @@ public class ServicePlant implements IServicePlant {
         }
         List<DtoPlant> arrayDto = new ArrayList<>();
         for (Plant p : plants){
+            System.out.println("Entra al for");
             DtoPlant dto = new DtoPlant();
             dto = plantMapper.plantToDto(p);
             dto = serviceReading.readingByPlant(dto);
             arrayDto.add(dto);
         }
+
         return arrayDto;
     }
 
@@ -62,7 +63,6 @@ public class ServicePlant implements IServicePlant {
         plantNew.setCountry(plant.getCountry());
         plantNew.setUrlFlag(plant.getUrlFlag());
         plantNew.setSensorsDisiable(plant.getSensorsDisiable());
-
         Plant plantSaved = plantRepository.save(plantNew);
         List<Reading> readings = plant.getReadings();
         System.out.println(plant.getReadings());
@@ -90,10 +90,40 @@ public class ServicePlant implements IServicePlant {
     }
 
     @Override
+    public String updatePlant(DtoPlant dtoPlant) throws Exception{
+
+        Plant plant = plantRepository.findById(dtoPlant.getIdPlant()).get();
+        if(plant == null){
+            throw new Exception("Plant Not Found");
+        }
+        /*List<Long> idReadings = new ArrayList<>();
+        for (Reading r : plant.getReadings()){
+            idReadings.add(r.getIdReading());
+        }
+        if(idReadings.size() >0){
+            serviceReading.deleteReadings(idReadings);
+        }*/
+
+        Plant plantSave = plantMapper.dtoToPlant(dtoPlant);
+        plantRepository.save(plantSave);
+        serviceReading.createReadingRandom(plantSave, dtoPlant.getCantReadings(),
+                dtoPlant.getCantReadingOk(), dtoPlant.getCantAlertMedium(),
+                dtoPlant.getCantAlertRed());
+
+        //plantRepository.save(plantSave);
+        return "Plant saved";
+    }
+
+    @Override
     public DtoReadingsTotals readingsTotals(){
         DtoReadingsTotals dto = serviceReading.readingsTotals();
         dto.setSensorsDisiabled(plantRepository.getTotalSensorsDisiabled());
         return dto;
     }
+
+
+
+
+
 
 }

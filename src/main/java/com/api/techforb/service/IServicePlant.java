@@ -14,4 +14,5 @@ public interface IServicePlant {
     public String deletePlant(Long id) throws Exception;
     public String updatePlant(Long id, Plant plantUpdate) throws Exception;
     public DtoReadingsTotals readingsTotals();
+    public String updatePlant(DtoPlant dtoPlant) throws Exception;
 }

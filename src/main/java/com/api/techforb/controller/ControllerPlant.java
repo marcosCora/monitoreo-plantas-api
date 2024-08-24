@@ -21,7 +21,7 @@ public class ControllerPlant {
     public ResponseEntity<?> getAllPlants(){
         ResponseEntity<?> response = null;
         try{
-            response = new ResponseEntity<>(service.getAllPlantsDto(), HttpStatus.OK);
+            response = new ResponseEntity<>(service.getAllPlants(), HttpStatus.OK);
         }catch (Exception e){
             response = ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -56,6 +56,18 @@ public class ControllerPlant {
         ResponseEntity<?> response = null;
         try{
             response = new ResponseEntity<>(service.readingsTotals(), HttpStatus.OK);
+        }catch (Exception e){
+            response = ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return response;
+    }
+
+    @PutMapping("/update-plant")
+    public ResponseEntity<String> updatePlant(@RequestBody DtoPlant plantDto){
+        System.out.println(plantDto);
+        ResponseEntity<String> response = null;
+        try{
+            response = new ResponseEntity<>(service.updatePlant(plantDto), HttpStatus.OK);
         }catch (Exception e){
             response = ResponseEntity.badRequest().body(e.getMessage());
         }
