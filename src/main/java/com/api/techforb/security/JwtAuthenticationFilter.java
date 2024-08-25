@@ -30,21 +30,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String token = getTokenFromRequest(request);
         final String username;
-
-        if (token==null)
-        {
+        System.out.println(token + "\ntoken\n");
+        if (token==null) {
+            System.out.println("holaa");
             filterChain.doFilter(request, response);
             return;
         }
-
         username=jwtService.getUsernameFromToken(token);
+        System.out.println(username + " USER NAME");
 
-        if (username!=null && SecurityContextHolder.getContext().getAuthentication()==null)
-        {
+        if (username!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
             UserDetails userDetails=userDetailsService.loadUserByUsername(username);
-
-            if (jwtService.isTokenValid(token, userDetails))
-            {
+            if (jwtService.isTokenValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken= new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
@@ -69,8 +66,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
-
-
-
-
 }

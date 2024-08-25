@@ -3,6 +3,7 @@ package com.api.techforb.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,8 +28,9 @@ public class SecurityConfig {
                                 .disable())
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .requestMatchers("/techapi/auth/**").permitAll()
-                                .requestMatchers("/techapi/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/techapi/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/techapi/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/techapi/plants/getall").authenticated()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager->
@@ -37,8 +39,6 @@ public class SecurityConfig {
                 .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-
-
     }
 
 }

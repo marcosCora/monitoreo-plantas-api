@@ -51,10 +51,10 @@ public class ServiceUser implements IServiceUser {
 
     @Override
     public DtoAuthResponse loginUser(DtoLogin dtoUser) throws AuthenticationException, Exception{
-        System.out.println("hola1");
-        System.out.println(dtoUser);
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoUser.getEmail(), dtoUser.getPassword()));
+        UsernamePasswordAuthenticationToken userPass = new UsernamePasswordAuthenticationToken(dtoUser.getEmail(), dtoUser.getPassword());
+        System.out.println(userPass);
+        authenticationManager.authenticate(userPass);
         System.out.println("hola2");
         UserDetails user = (UserDetails) userRepository.findByEmail(dtoUser.getEmail()).get();
         System.out.println(user);
