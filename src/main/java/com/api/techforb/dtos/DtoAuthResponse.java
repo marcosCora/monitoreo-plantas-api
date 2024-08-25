@@ -1,15 +1,12 @@
 package com.api.techforb.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DtoAuthResponse {
-    private String accesToken;
-    private String tokenType;
-
-    public DtoAuthResponse(String accesToken){
-        this.accesToken =accesToken;
-        this.tokenType = "Bearer ";
-    }
-
+    private String token;
 }
