@@ -23,10 +23,4 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "users_roles", joinColumns =
-                @JoinColumn(name = "user_id", referencedColumnName = "id_users"),
-                inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id_roles"))
-    private List<Role> roles = new ArrayList<>();
-
 }

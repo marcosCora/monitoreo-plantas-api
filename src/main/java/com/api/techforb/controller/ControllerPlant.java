@@ -51,12 +51,25 @@ public class ControllerPlant {
         return response;
     }
 
-    @GetMapping("/countreadings")
+    @GetMapping("/count-readings")
     public ResponseEntity<?> getCountReading(){
         ResponseEntity<?> response = null;
         try{
             response = new ResponseEntity<>(service.readingsTotals(), HttpStatus.OK);
         }catch (Exception e){
+            response = ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return response;
+    }
+
+    @PutMapping("/update-plant")
+    public ResponseEntity<String> updatePlant(@RequestBody DtoPlant plantDto){
+        System.out.println(plantDto);
+        ResponseEntity<String> response = null;
+        try{
+            response = new ResponseEntity<>(service.updatePlant(plantDto), HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println("exception");
             response = ResponseEntity.badRequest().body(e.getMessage());
         }
         return response;

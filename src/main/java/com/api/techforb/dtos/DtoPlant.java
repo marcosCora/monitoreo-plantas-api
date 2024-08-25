@@ -4,10 +4,11 @@ import lombok.Data;
 
 @Data
 public class DtoPlant {
-
     private Long idPlant;
     private String name;
-    private String nameCountry;
+    private String country;
+    private String urlFlag;
+    private Long cantReadingOk;
     private Long cantReadings;
     private Long cantAlertMedium;
     private Long cantAlertRed;
