@@ -1,5 +1,6 @@
 package com.api.techforb.mapper;
 
+import com.api.techforb.Enums.TypeRole;
 import com.api.techforb.dtos.DtoRegistrer;
 import com.api.techforb.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ public class UserMapper {
         user.setName(dtoRegistrer.getName());
         user.setLastName(dtoRegistrer.getLastName());
         user.setEmail(dtoRegistrer.getEmail());
+        user.setRole(TypeRole.USER.toString());
+        System.out.println(user);
         return user;
     }
 

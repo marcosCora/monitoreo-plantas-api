@@ -6,9 +6,15 @@ import com.api.techforb.dtos.DtoRegistrer;
 import com.api.techforb.entity.User;
 import com.api.techforb.mapper.UserMapper;
 import com.api.techforb.repository.IRepositoryUser;
+import com.api.techforb.security.JwtService;
 import com.api.techforb.service.IServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,12 +22,12 @@ public class ServiceUser implements IServiceUser {
 
     @Autowired
     private IRepositoryUser userRepository;
-    /*@Autowired
-    private PasswordEncoder passwordEncoder;
     @Autowired
-    private JwtGenerator jwtGenerator;
+    private JwtService jwtService;
     @Autowired
-    private AuthenticationManager authenticationManager;*/
+    private  PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
     @Autowired
     private UserMapper userMapper;
 
@@ -31,22 +37,25 @@ public class ServiceUser implements IServiceUser {
             throw new Exception("Already registered user");
         }
         User user = userMapper.dtoRegisterToUser(dtoUser);
-        user.setPassword(dtoUser.getPassword());
+        user.setPassword(passwordEncoder.encode(dtoUser.getPassword()));
         userRepository.save(user);
         System.out.println(user);
         return "User registered successfully";
     }
 
     @Override
-    public DtoAuthResponse loginUser(DtoLogin dtoUser) throws AuthenticationException, Exception{
+    public DtoAuthResponse loginUser(DtoLogin dtoUser) throws UsernameNotFoundException, AuthenticationException, Exception{
 
-        return null;
+        UsernamePasswordAuthenticationToken userPass = new UsernamePasswordAuthenticationToken(dtoUser.getEmail(), dtoUser.getPassword());
+        authenticationManager.authenticate(userPass);
+        UserDetails user = (UserDetails) userRepository.findByEmail(dtoUser.getEmail()).get();
+        String token = jwtService.getToken(user);
+        if(token == null){
+            throw new UsernameNotFoundException("Credential invalid");
+        }
 
-        /*Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                dtoUser.getEmail(), dtoUser.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        return new DtoAuthResponse(token);*/
+        return new DtoAuthResponse(token) ;
+
     }
 
 

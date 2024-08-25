@@ -54,6 +54,17 @@ public class ServicePlant implements IServicePlant {
     }
 
     @Override
+    public String savePlant(DtoPlant plant)throws Exception{
+        if(plant == null){
+            throw new Exception("Plant not found");
+        }
+        Plant plantNew = plantMapper.dtoToPlant(plant);
+        plantRepository.save(plantNew);
+
+        return "Plant Saved";
+    }
+
+    @Override
     public String savePlant(Plant plant)throws Exception{
         if(plant == null){
             throw new Exception("Plant not found");
