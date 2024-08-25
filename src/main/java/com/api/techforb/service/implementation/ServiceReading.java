@@ -60,12 +60,26 @@ public class ServiceReading implements IServiceReading {
 
     @Override
     public DtoReadingsTotals readingsTotals(){
+        List<Reading> readings = readingRepository.findAll();
+        Long contReading = 0L;
+        Long contAlertMedium = 0L;
+        Long contAlertRed = 0L;
+        Long contAlertOk = 0L;
+        for (Reading r : readings){
+            contReading++;
+            if(r.getAlert().getTypeAlert().equals(TypeAlert.OK)){
+                contAlertOk++;
+            } else if (r.getAlert().getTypeAlert().equals(TypeAlert.MEDIUM)) {
+                contAlertMedium++;
+            }else {
+                contAlertRed++;
+            }
+        }
         DtoReadingsTotals dto = new DtoReadingsTotals();
-        dto.setReadingsTotals(readingRepository.getTotalReadings());
-        dto.setAlertsRed(serviceAlert.sumTypeAlert(TypeAlert.RED));
-        dto.setAlertsMedias(serviceAlert.sumTypeAlert(TypeAlert.MEDIUM));
-        dto.setAlertsOk(serviceAlert.sumTypeAlert(TypeAlert.OK));
-
+        dto.setReadingsTotals(contReading);
+        dto.setAlertsRed(contAlertRed);
+        dto.setAlertsMedias(contAlertMedium);
+        dto.setAlertsOk(contAlertOk);
         return dto;
     }
 
@@ -123,7 +137,6 @@ public class ServiceReading implements IServiceReading {
             reading.setPlant(p);
             readings.add(reading);
         }
-        //System.out.println(readings.toString());
         readingRepository.deleteReadingsByPlant(p.getIdPlant());
         saveReading(readings);
     }

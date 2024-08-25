@@ -51,7 +51,7 @@ public class ControllerPlant {
         return response;
     }
 
-    @GetMapping("/countreadings")
+    @GetMapping("/count-readings")
     public ResponseEntity<?> getCountReading(){
         ResponseEntity<?> response = null;
         try{
@@ -69,6 +69,7 @@ public class ControllerPlant {
         try{
             response = new ResponseEntity<>(service.updatePlant(plantDto), HttpStatus.OK);
         }catch (Exception e){
+            System.out.println("exception");
             response = ResponseEntity.badRequest().body(e.getMessage());
         }
         return response;

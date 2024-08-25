@@ -92,25 +92,14 @@ public class ServicePlant implements IServicePlant {
     @Override
     public String updatePlant(DtoPlant dtoPlant) throws Exception{
 
-        Plant plant = plantRepository.findById(dtoPlant.getIdPlant()).get();
-        if(plant == null){
+        if(plantRepository.findById(dtoPlant.getIdPlant()).isEmpty()){
             throw new Exception("Plant Not Found");
         }
-        /*List<Long> idReadings = new ArrayList<>();
-        for (Reading r : plant.getReadings()){
-            idReadings.add(r.getIdReading());
-        }
-        if(idReadings.size() >0){
-            serviceReading.deleteReadings(idReadings);
-        }*/
-
         Plant plantSave = plantMapper.dtoToPlant(dtoPlant);
         plantRepository.save(plantSave);
         serviceReading.createReadingRandom(plantSave, dtoPlant.getCantReadings(),
                 dtoPlant.getCantReadingOk(), dtoPlant.getCantAlertMedium(),
                 dtoPlant.getCantAlertRed());
-
-        //plantRepository.save(plantSave);
         return "Plant saved";
     }
 
