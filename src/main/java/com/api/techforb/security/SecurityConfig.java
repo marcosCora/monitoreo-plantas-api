@@ -28,10 +28,11 @@ public class SecurityConfig {
                                 .disable())
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .requestMatchers(HttpMethod.POST,"/techapi/auth/**").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/techapi/auth/login").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/techapi/plants/getall").authenticated()
-                                .anyRequest().authenticated()
+                                //.requestMatchers(HttpMethod.POST,"/techapi/auth/**").permitAll()
+                                //.requestMatchers(HttpMethod.POST,"/techapi/auth/login").permitAll()
+                                //.requestMatchers(HttpMethod.GET, "/techapi/plants/getall").authenticated()
+                                .requestMatchers( "/techapi/**").permitAll()
+                                //.anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager->
                         sessionManager

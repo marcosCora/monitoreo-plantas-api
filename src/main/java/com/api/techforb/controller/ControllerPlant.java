@@ -39,8 +39,20 @@ public class ControllerPlant {
         return response;
     }
 
+    @PostMapping("/creat-dto")
+    public ResponseEntity<String> creatPlant(@RequestBody DtoPlant plant){
+        ResponseEntity<String> response = null;
+        System.out.println(plant);
+        try{
+            response = new ResponseEntity<>(service.savePlant(plant), HttpStatus.OK);
+        }catch (Exception e){
+            response = ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return response;
+    }
+
     @PostMapping("/creat")
-    public ResponseEntity<String> creatPlant(@RequestBody Plant plant){
+    public ResponseEntity<String> creatPlantComplete(@RequestBody Plant plant){
         ResponseEntity<String> response = null;
         System.out.println(plant);
         try{
