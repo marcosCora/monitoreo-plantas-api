@@ -24,7 +24,6 @@ public class JwtService {
     }
 
     private String getToken(Map<String,Object> extraClaims, UserDetails user) {
-        System.out.println(user + "GET TOKEN " + user.getUsername()  +" EMAILA LA DERECHA");
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -41,7 +40,6 @@ public class JwtService {
     }
 
     public String getUsernameFromToken(String token) {
-        System.out.println("get username token\n" + token);
         return getClaim(token, Claims::getSubject);
     }
 

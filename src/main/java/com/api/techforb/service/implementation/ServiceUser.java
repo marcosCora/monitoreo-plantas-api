@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +28,6 @@ public class ServiceUser implements IServiceUser {
     private  PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    /*@Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtGenerator jwtGenerator;
-    @Autowired
-    private AuthenticationManager authenticationManager;*/
     @Autowired
     private UserMapper userMapper;
 
@@ -50,16 +44,17 @@ public class ServiceUser implements IServiceUser {
     }
 
     @Override
-    public DtoAuthResponse loginUser(DtoLogin dtoUser) throws AuthenticationException, Exception{
+    public DtoAuthResponse loginUser(DtoLogin dtoUser) throws UsernameNotFoundException, AuthenticationException, Exception{
 
         UsernamePasswordAuthenticationToken userPass = new UsernamePasswordAuthenticationToken(dtoUser.getEmail(), dtoUser.getPassword());
-        System.out.println(userPass);
         authenticationManager.authenticate(userPass);
-        System.out.println("hola2");
         UserDetails user = (UserDetails) userRepository.findByEmail(dtoUser.getEmail()).get();
-        System.out.println(user);
-        System.out.println(jwtService.getToken(user));
-        return new DtoAuthResponse(jwtService.getToken(user)) ;
+        String token = jwtService.getToken(user);
+        if(token == null){
+            throw new UsernameNotFoundException("Credential invalid");
+        }
+
+        return new DtoAuthResponse(token) ;
 
     }
 
