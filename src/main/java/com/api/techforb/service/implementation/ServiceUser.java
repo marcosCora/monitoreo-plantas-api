@@ -3,6 +3,7 @@ package com.api.techforb.service.implementation;
 import com.api.techforb.dtos.DtoAuthResponse;
 import com.api.techforb.dtos.DtoLogin;
 import com.api.techforb.dtos.DtoRegistrer;
+import com.api.techforb.dtos.TokenValidation;
 import com.api.techforb.entity.User;
 import com.api.techforb.mapper.UserMapper;
 import com.api.techforb.repository.IRepositoryUser;
@@ -11,7 +12,9 @@ import com.api.techforb.service.IServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -63,6 +66,16 @@ public class ServiceUser implements IServiceUser {
         System.out.printf(email.getEmail());
         User user = userRepository.findByEmail(email.getEmail()).get();
         return user.getName() + " " + user.getLastName();
+    }
+
+    @Override
+    public boolean validationToken(TokenValidation token){
+        boolean rta = false;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null && authentication.isAuthenticated()){
+            rta = true;
+        }
+        return rta;
     }
 
 
