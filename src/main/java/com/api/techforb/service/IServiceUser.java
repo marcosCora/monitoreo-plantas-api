@@ -11,5 +11,6 @@ public interface IServiceUser {
 
     public String registerNewUser(DtoRegistrer dtoUser) throws Exception;
     public DtoAuthResponse loginUser(DtoLogin dtoUser) throws UsernameNotFoundException, AuthenticationException, Exception;
+    public String getNameComplete(DtoLogin email);
 
 }

@@ -54,10 +54,16 @@ public class ServiceUser implements IServiceUser {
             throw new UsernameNotFoundException("Credential invalid");
         }
 
-        return new DtoAuthResponse(token) ;
+        return new DtoAuthResponse(token, dtoUser.getEmail());
 
     }
 
+    @Override
+    public String getNameComplete(DtoLogin email) {
+        System.out.printf(email.getEmail());
+        User user = userRepository.findByEmail(email.getEmail()).get();
+        return user.getName() + " " + user.getLastName();
+    }
 
 
 }
