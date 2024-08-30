@@ -46,6 +46,7 @@ public class ControllerAuthUsers {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody DtoLogin user){
         ResponseEntity<?> response = null;
+        System.out.println(user);
         try{
             response = new ResponseEntity<>(serviceUser.loginUser(user), HttpStatus.OK);
         }catch (UsernameNotFoundException e){

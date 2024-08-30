@@ -42,12 +42,14 @@ public class ControllerPlant {
     @PostMapping("/creat-dto")
     public ResponseEntity<String> creatPlant(@RequestBody DtoPlant plant){
         ResponseEntity<String> response = null;
-        System.out.println(plant);
+
         try{
-            response = new ResponseEntity<>(service.savePlant(plant), HttpStatus.OK);
+            String rta = service.savePlant(plant);
+            response = ResponseEntity.ok(rta);
         }catch (Exception e){
             response = ResponseEntity.badRequest().body(e.getMessage());
         }
+        System.out.println(response);
         return response;
     }
 
