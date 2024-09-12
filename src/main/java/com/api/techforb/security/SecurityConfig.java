@@ -28,13 +28,14 @@ public class SecurityConfig {
                                 .disable())
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .requestMatchers(HttpMethod.POST,"/techapi/auth/login").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/techapi/auth/register").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/techapi/auth/validate").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/techapi/auth/get-name").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/techapi/plants/**").authenticated()
-                                .requestMatchers(HttpMethod.POST, "/techapi/plants/**").authenticated()
-                                .anyRequest().authenticated()
+                                //.requestMatchers(HttpMethod.POST,"/techapi/auth/login").permitAll()
+                                //.requestMatchers(HttpMethod.POST,"/techapi/auth/register").permitAll()
+                                //.requestMatchers(HttpMethod.POST,"/techapi/auth/validate").permitAll()
+                                //.requestMatchers(HttpMethod.POST,"/techapi/auth/get-name").authenticated()
+                                //.requestMatchers(HttpMethod.GET, "/techapi/plants/**").authenticated()
+                                //.requestMatchers(HttpMethod.POST, "/techapi/plants/**").authenticated()
+                                .anyRequest().permitAll()
+                                //.anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager->
                         sessionManager

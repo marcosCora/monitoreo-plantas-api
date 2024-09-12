@@ -1,15 +1,15 @@
 package com.api.techforb.service.implementation;
 
-import com.api.techforb.dtos.DtoAuthResponse;
-import com.api.techforb.dtos.DtoLogin;
-import com.api.techforb.dtos.DtoRegistrer;
-import com.api.techforb.dtos.TokenValidation;
+import com.api.techforb.dtos.*;
 import com.api.techforb.entity.User;
+import com.api.techforb.exception.error.InvalidDataException;
 import com.api.techforb.mapper.UserMapper;
 import com.api.techforb.repository.IRepositoryUser;
 import com.api.techforb.security.JwtService;
 import com.api.techforb.service.IServiceUser;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +19,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class ServiceUser implements IServiceUser {
@@ -35,15 +38,21 @@ public class ServiceUser implements IServiceUser {
     private UserMapper userMapper;
 
     @Override
-    public String registerNewUser(DtoRegistrer dtoUser) throws Exception{
-        if(!userRepository.findByEmail(dtoUser.getEmail()).isEmpty()){
-            throw new Exception("Already registered user");
+    public DtoResponse registerNewUser(@NotNull DtoRegistrer dtoUser) throws InvalidDataException{
+        if(dtoUser.objValidator()){
+            if(!userRepository.findByEmail(dtoUser.getEmail()).isEmpty()){
+                throw new InvalidDataException("Already registered email");
+            } else if (!validationNewUser(dtoUser)) {
+                throw new InvalidDataException("Password or data invalid");
+            }
+        }else {
+            throw new InvalidDataException("Data invalid");
         }
+
         User user = userMapper.dtoRegisterToUser(dtoUser);
         user.setPassword(passwordEncoder.encode(dtoUser.getPassword()));
         userRepository.save(user);
-        System.out.println(user);
-        return "User registered successfully";
+        return new DtoResponse(HttpStatus.CREATED, "User registered successfully");
     }
 
     @Override
@@ -76,6 +85,20 @@ public class ServiceUser implements IServiceUser {
             rta = true;
         }
         return rta;
+    }
+
+    public boolean validationNewUser(DtoRegistrer user){
+        boolean rta = false;
+        if(user.objValidator()){
+            Pattern pattern = Pattern.compile(".{8,}");
+            Matcher matcher = pattern.matcher(user.getPassword());
+            if(matcher.matches()){
+                rta = true;
+            }
+        }
+        System.out.println(rta);
+        return rta;
+
     }
 
 

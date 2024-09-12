@@ -16,6 +16,7 @@ public class UserMapper {
         user.setLastName(dtoRegistrer.getLastName());
         user.setEmail(dtoRegistrer.getEmail());
         user.setRole(TypeRole.USER.toString());
+        user.setPassword(dtoRegistrer.getPassword());
         System.out.println(user);
         return user;
     }
