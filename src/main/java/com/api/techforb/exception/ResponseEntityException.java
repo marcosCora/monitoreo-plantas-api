@@ -2,8 +2,10 @@ package com.api.techforb.exception;
 
 import com.api.techforb.dtos.DtoResponse;
 import com.api.techforb.exception.error.InvalidDataException;
+import com.api.techforb.exception.error.UserNoAuthenticateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,5 +20,16 @@ public class ResponseEntityException extends ResponseEntityExceptionHandler {
         DtoResponse error = new DtoResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<DtoResponse> responseUserNoAuthenticateException(AuthenticationException ex){
+        DtoResponse error = new DtoResponse(HttpStatus.UNAUTHORIZED, ex.getMessage()+" or Credential Invalid");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+
+
+
 
 }

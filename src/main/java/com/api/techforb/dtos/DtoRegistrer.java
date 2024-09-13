@@ -16,7 +16,7 @@ public class DtoRegistrer {
     //valida que todos los campos contengan datos
     public boolean objValidator(){
         return name != null && !name.isEmpty() &&
-                lastName != null && !lastName.isEmpty() && email.contains("@") &&
+                lastName != null && !lastName.isEmpty()  &&
                 email != null && !email.isEmpty() &&
                 password != null && !password.isEmpty();
     }
